@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Šafránek Servis – Autoservis & Pneuservis Kolín</title>
+  <style>
+    :root {
+      --primary: #e63b2e;
+      --primary-dark: #c0301e;
+      --dark: #1a1a1a;
+      --gray: #2e2e2e;
+      --light-gray: #f4f4f4;
+      --mid-gray: #888;
+      --white: #ffffff;
+      --radius: 6px;
+      --font: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      color: var(--dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      background: var(--white);
+      border-bottom: 3px solid var(--primary);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: white; font-weight: 900;
+    }
+    .logo-text { line-height: 1.2; }
+    .logo-text strong { font-size: 1.1rem; display: block; color: var(--dark); }
+    .logo-text span { font-size: 0.75rem; color: var(--mid-gray); }
+
+    .nav-links { display: flex; list-style: none; gap: 4px; }
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--gray);
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-links a:hover { background: var(--light-gray); color: var(--dark); }
+    .nav-links a.cta { background: var(--primary); color: white; font-weight: 700; }
+    .nav-links a.cta:hover { background: var(--primary-dark); }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2e2e2e 60%, #3a1a18 100%);
+      color: white;
+      padding: 100px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: rgba(230, 59, 46, 0.12);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: 10%;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(230, 59, 46, 0.07);
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(230,59,46,0.2);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900; line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--primary); }
+    .hero p { font-size: 1.05rem; color: #bbb; margin-bottom: 32px; max-width: 460px; }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 13px 28px;
+      border-radius: var(--radius);
+      font-weight: 700; font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-outline { border: 2px solid rgba(255,255,255,0.3); color: white; }
+    .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.08); }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 20px 12px;
+      text-align: center;
+    }
+    .stat-card .num {
+      font-size: 1.7rem; font-weight: 900;
+      color: var(--primary);
+      display: block;
+      white-space: nowrap;
+    }
+    .stat-card .label {
+      font-size: 0.78rem; color: #aaa;
+      margin-top: 4px; line-height: 1.3;
+    }
+
+    /* ─── SECTION COMMON ─── */
+    section { padding: 80px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 900; color: var(--dark); margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--mid-gray);
+      max-width: 540px; margin-bottom: 48px;
+    }
+
+    /* ─── SERVICES ─── */
+    .services { background: var(--light-gray); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .service-card {
+      background: white;
+      border-radius: 10px;
+      padding: 28px 24px;
+      border: 1px solid #e8e8e8;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .service-card:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      transform: translateY(-3px);
+    }
+    .service-icon {
+      width: 52px; height: 52px;
+      background: rgba(230,59,46,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+    .service-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .service-card p { font-size: 0.875rem; color: var(--mid-gray); }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about-img-wrap {
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      height: 400px;
+    }
+    .about-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .about-img-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--primary);
+    }
+    .about-text .checklist {
+      list-style: none;
+      margin: 24px 0 32px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .checklist li {
+      display: flex; align-items: flex-start;
+      gap: 12px; font-size: 0.95rem;
+    }
+    .checklist li::before {
+      content: '';
+      width: 20px; height: 20px; min-width: 20px;
+      background: var(--primary);
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 12px;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-top: 2px;
+    }
+
+    /* ─── GALLERY ─── */
+    .gallery { background: var(--dark); }
+    .gallery .section-title { color: white; }
+    .gallery .section-label { color: var(--primary); }
+    .gallery .section-sub { color: #aaa; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 240px 240px;
+      gap: 12px;
+    }
+    .gallery-item {
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-item.tall { grid-row: span 2; }
+    .gallery-item.wide { grid-column: span 2; }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s;
+    }
+    .gallery-item:hover img { transform: scale(1.05); }
+    .gallery-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%);
+      display: flex; align-items: flex-end;
+      padding: 16px;
+      color: white; font-size: 0.88rem; font-weight: 700;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+
+    /* ─── PRICELIST ─── */
+    .pricelist { background: var(--white); }
+    .price-tables {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .price-table {
+      background: var(--light-gray);
+      border-radius: 10px;
+      border: 1px solid #e8e8e8;
+      overflow: hidden;
+    }
+    .price-table-head {
+      background: var(--dark);
+      color: white;
+      padding: 16px 20px;
+      font-weight: 700; font-size: 1rem;
+    }
+    .price-row {
+      display: flex; justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid #e8e8e8;
+      font-size: 0.9rem;
+      background: white;
+    }
+    .price-row:last-child { border-bottom: none; }
+    .price-row .price { font-weight: 700; color: var(--primary); white-space: nowrap; margin-left: 12px; }
+    .price-note {
+      padding: 10px 20px;
+      background: rgba(230,59,46,0.05);
+      border-top: 1px solid rgba(230,59,46,0.15);
+      font-size: 0.8rem; color: var(--mid-gray);
+    }
+
+    /* ─── RESERVATION ─── */
+    .reservation { background: var(--dark); color: white; }
+    .reservation .section-title { color: white; }
+    .reservation .section-sub { color: #aaa; }
+    .res-grid {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 0.82rem; font-weight: 600;
+      color: #bbb; margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      color: white; font-family: var(--font); font-size: 0.92rem;
+      transition: border-color 0.15s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { outline: none; border-color: var(--primary); }
+    .form-group select option { background: #2e2e2e; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* kontakt v pravém sloupci */
+    .res-contact { display: flex; flex-direction: column; gap: 0; }
+    .res-contact-block {
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .res-contact-block:last-child { border-bottom: none; }
+    .res-contact-block h4 {
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 10px;
+    }
+    .res-contact-item {
+      display: flex; align-items: flex-start;
+      gap: 12px; margin-bottom: 10px;
+    }
+    .res-contact-item:last-child { margin-bottom: 0; }
+    .res-icon {
+      width: 36px; height: 36px; min-width: 36px;
+      background: rgba(230,59,46,0.15);
+      border: 1px solid rgba(230,59,46,0.25);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .res-contact-item p { font-size: 0.9rem; color: #ccc; line-height: 1.4; }
+    .res-contact-item a { font-size: 1rem; font-weight: 700; color: white; }
+    .res-contact-item a:hover { color: var(--primary); }
+
+    .hours-list { list-style: none; }
+    .hours-list li {
+      display: flex; justify-content: space-between;
+      font-size: 0.88rem; color: #ccc;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .hours-list li:last-child { border-bottom: none; }
+    .hours-list li span { font-weight: 700; color: white; }
+    .hours-list li.closed span { color: #888; }
+
+    /* ─── MAP ─── */
+    .map-section {
+      display: block;
+      line-height: 0;
+      font-size: 0;
+    }
+    .map-section iframe {
+      width: 100%;
+      height: 420px;
+      border: none;
+      display: block;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #200a09 100%);
+      color: #999;
+      padding: 60px 24px 28px;
+      border-top: 4px solid var(--primary);
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand .logo-icon { width: 48px; height: 48px; font-size: 1.4rem; margin-bottom: 16px; }
+    .footer-brand strong { display: block; color: white; font-size: 1.1rem; margin-bottom: 6px; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: #888; }
+    .footer-contacts { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .footer-contacts a {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.9rem; font-weight: 600; color: white;
+      transition: color 0.15s;
+    }
+    .footer-contacts a:hover { color: var(--primary); }
+    .footer-contacts a .ico {
+      width: 28px; height: 28px;
+      background: rgba(230,59,46,0.15);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    footer h4 {
+      color: white; font-size: 0.85rem;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary);
+      display: inline-block;
+    }
+    footer ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    footer ul li a {
+      font-size: 0.85rem; color: #888;
+      transition: color 0.15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    footer ul li a::before {
+      content: '›';
+      color: var(--primary);
+      font-size: 1rem;
+    }
+    footer ul li a:hover { color: white; }
+
+    .footer-hours-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .footer-hours-list li {
+      font-size: 0.82rem; color: #888;
+      display: flex; justify-content: space-between; gap: 8px;
+    }
+    .footer-hours-list li span { color: white; font-weight: 600; }
+
+    .footer-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(230,59,46,0.1);
+      border: 1px solid rgba(230,59,46,0.25);
+      color: var(--primary);
+      font-size: 0.75rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px;
+      margin-top: 12px;
+    }
+
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; flex-wrap: wrap; gap: 8px;
+      color: #555;
+    }
+    .footer-bottom a { color: var(--primary); }
+    .footer-bottom a:hover { color: white; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1000px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: span 2; }
+    }
+    @media (max-width: 900px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .gallery-item.tall, .gallery-item.wide { grid-row: span 1; grid-column: span 1; }
+    }
+    @media (max-width: 768px) {
+      .hero-inner, .about-grid, .res-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: repeat(3, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-brand { grid-column: span 1; }
+      .nav-links { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .map-section iframe { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-icon">S</div>
+      <div class="logo-text">
+        <strong>Šafránek Servis</strong>
+        <span>Autoservis &amp; Pneuservis Kolín</span>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#o-nas">O nás</a></li>
+      <li><a href="#sluzby">Služby</a></li>
+      <li><a href="#cenik">Ceník</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="#rezervace" class="cta">Rezervace online</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">Autoservis &amp; Pneuservis – Kolín</div>
+      <h1>Spolehlivý servis pro <span>Vaše auto</span> v Kolíně</h1>
+      <p>Profesionální opravy osobních i nákladních vozidel, přezouvání pneumatik, diagnostika a klimatizace – vše na jednom místě.</p>
+      <div class="hero-btns">
+        <a href="#rezervace" class="btn btn-primary">Zarezervovat termín</a>
+        <a href="#sluzby" class="btn btn-outline">Naše služby</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="num">15+</span>
+        <span class="label">let zkušeností</span>
+      </div>
+      <div class="stat-card">
+        <span class="num">2000+</span>
+        <span class="label">spokojených zákazníků</span>
+      </div>
+      <div class="stat-card">
+        <span class="num">1 den</span>
+        <span class="label">průměrná oprava</span>
+      </div>
+      <div class="stat-card">
+        <span class="num">Mo–Pá</span>
+        <span class="label">7:00 – 17:00</span>
+      </div>
+      <div class="stat-card">
+        <span class="num">So</span>
+        <span class="label">dle dohody</span>
+      </div>
+      <div class="stat-card">
+        <span class="num">OBD</span>
+        <span class="label">diagnostika</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="sluzby">
+  <div class="section-inner">
+    <div class="section-label">Co nabízíme</div>
+    <h2 class="section-title">Komplexní péče o Vaše vozidlo</h2>
+    <p class="section-sub">Postaráme se o vše od pravidelné údržby až po složitější opravy osobních i užitkových vozidel.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">&#128663;</div>
+        <h3>Opravy vozidel</h3>
+        <p>Opravy osobních i užitkových vozidel – motor, brzdy, podvozek, převodovka a více.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#9898;</div>
+        <h3>Pneuservis</h3>
+        <p>Přezouvání a vyvažování pneumatik pro osobní i nákladní vozy. Rychle a přesně.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#128295;</div>
+        <h3>Výměna oleje</h3>
+        <p>Výměna motorového oleje a filtrů dle servisního plánu výrobce vašeho vozu.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#10052;</div>
+        <h3>Klimatizace</h3>
+        <p>Plnění a servis klimatizace. Diagnostika úniku chladiva a výměna komponentů.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#128187;</div>
+        <h3>Diagnostika OBD</h3>
+        <p>Profesionální počítačová diagnostika závad – rychlá a přesná identifikace problému.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#128230;</div>
+        <h3>Uskladnění pneumatik</h3>
+        <p>Nová služba – celoroční uskladnění vašich pneumatik v našem skladu.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#9889;</div>
+        <h3>Elektroinstalace</h3>
+        <p>Opravy a servis elektrických systémů vozidla, tažná zařízení, světla.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#10024;</div>
+        <h3>Mytí a čištění</h3>
+        <p>Čištění exteriéru i interiéru vozidla. Přijedete špinaví, odjedete čistí.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="o-nas">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=700&h=500&fit=crop&auto=format"
+          alt="Mechanik při práci v autoservisu"
+          loading="lazy"
+        />
+      </div>
+      <div class="about-text">
+        <div class="section-label">Kdo jsme</div>
+        <h2 class="section-title">Šafránek Servis – Váš servis v Kolíně</h2>
+        <p style="color:var(--mid-gray);font-size:0.95rem;">
+          Jsme rodinný autoservis s dlouholetou tradicí v Kolíně a okolí. Poskytujeme kvalitní a poctivou práci za férové ceny. Naši zákazníci se k nám vracejí, protože vědí, že u nás jejich auto dostane péči, jakou si zaslouží.
+        </p>
+        <ul class="checklist">
+          <li>Zkušený tým mechaniků s praxí přes 15 let</li>
+          <li>Moderní diagnostické vybavení</li>
+          <li>Rychlé termíny a transparentní ceny</li>
+          <li>Osobní přístup ke každému zákazníkovi</li>
+          <li>Servis osobních i užitkových vozidel</li>
+        </ul>
+        <a href="tel:+420723580892" class="btn btn-primary">Zavolejte nám</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="section-inner">
+    <div class="section-label">Fotogalerie</div>
+    <h2 class="section-title">Naše dílna</h2>
+    <p class="section-sub" style="margin-bottom:32px;">Moderně vybavený servis připravený na veškeré opravy a servisní úkony.</p>
+    <div class="gallery-grid">
+      <!-- velký levý -->
+      <div class="gallery-item tall">
+        <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&h=600&fit=crop&auto=format" alt="Mechanik v dílně" loading="lazy" />
+        <div class="overlay">Servisní hala</div>
+      </div>
+      <!-- pravý horní -->
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1599256621730-535171e28e50?w=500&h=300&fit=crop&auto=format" alt="Auto na zvedáku" loading="lazy" />
+        <div class="overlay">Auto na zvedáku</div>
+      </div>
+      <!-- pravý horní 2 -->
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1616789916597-c65ef4b6bca8?w=500&h=300&fit=crop&auto=format" alt="Pneumatiky" loading="lazy" />
+        <div class="overlay">Pneuservis</div>
+      </div>
+      <!-- pravý dolní -->
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=500&h=300&fit=crop&auto=format" alt="Nářadí v dílně" loading="lazy" />
+        <div class="overlay">Vybavení dílny</div>
+      </div>
+      <!-- pravý dolní 2 -->
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1504222490345-c075b7550821?w=500&h=300&fit=crop&auto=format" alt="Oprava motoru" loading="lazy" />
+        <div class="overlay">Oprava motoru</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICELIST -->
+<section class="pricelist" id="cenik">
+  <div class="section-inner">
+    <div class="section-label">Orientační ceník</div>
+    <h2 class="section-title">Transparentní ceny</h2>
+    <p class="section-sub">Finální cena závisí na typu vozidla a rozsahu práce. Kontaktujte nás pro přesnou kalkulaci.</p>
+    <div class="price-tables">
+      <div class="price-table">
+        <div class="price-table-head">Pneuservis</div>
+        <div class="price-row"><span>Přezutí osobní (4 kola)</span><span class="price">od 400 Kč</span></div>
+        <div class="price-row"><span>Vyvážení kola</span><span class="price">od 40 Kč/kolo</span></div>
+        <div class="price-row"><span>Demontáž/montáž pneu</span><span class="price">od 60 Kč/kolo</span></div>
+        <div class="price-row"><span>Oprava defektu</span><span class="price">od 150 Kč</span></div>
+        <div class="price-note">Ceny se mohou lišit dle velikosti a typu pneumatiky.</div>
+      </div>
+      <div class="price-table">
+        <div class="price-table-head">Autoservis</div>
+        <div class="price-row"><span>Výměna oleje + filtr</span><span class="price">od 500 Kč</span></div>
+        <div class="price-row"><span>Diagnostika OBD</span><span class="price">od 400 Kč</span></div>
+        <div class="price-row"><span>Servis klimatizace</span><span class="price">od 800 Kč</span></div>
+        <div class="price-row"><span>Výměna brzd (přední)</span><span class="price">od 700 Kč</span></div>
+        <div class="price-note">Ceny jsou bez materiálu. Přesná nabídka po konzultaci.</div>
+      </div>
+      <div class="price-table">
+        <div class="price-table-head">Uskladnění pneumatik</div>
+        <div class="price-row"><span>Sezónní uskladnění (4 ks)</span><span class="price">od 500 Kč</span></div>
+        <div class="price-row"><span>Celoroční uskladnění (4 ks)</span><span class="price">od 900 Kč</span></div>
+        <div class="price-row"><span>Označení a evidence</span><span class="price">zdarma</span></div>
+        <div class="price-note">Skladujeme v suchu, bezpečně a s evidencí.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION + KONTAKT -->
+<section class="reservation" id="rezervace">
+  <div class="section-inner">
+    <div class="res-grid">
+      <!-- formulář -->
+      <div>
+        <div class="section-label">Online rezervace</div>
+        <h2 class="section-title">Zarezervujte si termín</h2>
+        <p class="section-sub">Vyplňte formulář a ozveme se vám s potvrzením do 24 hodin.</p>
+        <form>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Jméno a příjmení</label>
+              <input type="text" placeholder="Jan Novák" />
+            </div>
+            <div class="form-group">
+              <label>Telefon</label>
+              <input type="tel" placeholder="+420 XXX XXX XXX" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" placeholder="vas@email.cz" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Služba</label>
+              <select>
+                <option>-- Vyberte službu --</option>
+                <option>Přezutí pneumatik</option>
+                <option>Výměna oleje</option>
+                <option>Diagnostika</option>
+                <option>Servis klimatizace</option>
+                <option>Oprava vozidla</option>
+                <option>Jiné</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Preferovaný termín</label>
+              <input type="date" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>SPZ a typ vozidla</label>
+            <input type="text" placeholder="1A2 3456 – Škoda Octavia 2015" />
+          </div>
+          <div class="form-group">
+            <label>Poznámka</label>
+            <textarea rows="3" placeholder="Popište problém nebo dotaz..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;margin-top:4px;">Odeslat poptávku</button>
+        </form>
+      </div>
+
+      <!-- kontakt + hodiny -->
+      <div class="res-contact" id="kontakt">
+        <div class="res-contact-block">
+          <h4>Kontakt</h4>
+          <div class="res-contact-item">
+            <div class="res-icon">&#128205;</div>
+            <p>Polepy 149<br/>280 02 Kolín</p>
+          </div>
+          <div class="res-contact-item">
+            <div class="res-icon">&#128222;</div>
+            <div>
+              <a href="tel:+420723580892">+420 723 580 892</a>
+              <p style="font-size:0.78rem;color:#888;margin-top:2px;">Autoservis</p>
+            </div>
+          </div>
+          <div class="res-contact-item">
+            <div class="res-icon">&#128222;</div>
+            <div>
+              <a href="tel:+420771242744">+420 771 242 744</a>
+              <p style="font-size:0.78rem;color:#888;margin-top:2px;">Pneuservis</p>
+            </div>
+          </div>
+        </div>
+        <div class="res-contact-block">
+          <h4>Provozní doba</h4>
+          <ul class="hours-list">
+            <li>Pondělí <span>7:00 – 17:00</span></li>
+            <li>Úterý <span>7:00 – 17:00</span></li>
+            <li>Středa <span>7:00 – 17:00</span></li>
+            <li>Čtvrtek <span>7:00 – 17:00</span></li>
+            <li>Pátek <span>7:00 – 17:00</span></li>
+            <li>Sobota <span>dle dohody</span></li>
+            <li class="closed">Neděle <span>zavřeno</span></li>
+          </ul>
+        </div>
+        <div class="res-contact-block">
+          <h4>Jak nás najdete</h4>
+          <p style="font-size:0.85rem;color:#aaa;line-height:1.6;">
+            Jsme v obci Polepy, cca 3 km od centra Kolína směr Praha. GPS: 50°03′N, 15°11′E.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPA – plná šířka, bez bílého proužku -->
+<div class="map-section">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2571.5!2d15.1850!3d50.0240!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470beebf4a8d6b1f%3A0x9e9c29bbd95f6c40!2sPolepy+149%2C+280+02+Kol%C3%ADn!5e0!3m2!1scs!2scz!4v1700000000000!5m2!1scs!2scz"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="Šafránek Servis – Polepy 149, Kolín"
+  ></iframe>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <!-- brand -->
+      <div class="footer-brand">
+        <div class="logo-icon">S</div>
+        <strong>Šafránek Servis</strong>
+        <p>Profesionální autoservis a pneuservis v Kolíně. Více než 15 let zkušeností s opravami osobních i užitkových vozidel.</p>
+        <div class="footer-contacts">
+          <a href="tel:+420723580892"></span>+420 723 580 892</a>
+          <a href="tel:+420771242744"></span>+420 771 242 744</a>
+          <a href="#"></span>Polepy 149, 280 02 Kolín</a>
+        </div>
+        <div class="footer-badge"> Otevřeno Po–Pá 7:00–17:00</div>
+      </div>
+
+      <!-- navigace -->
+      <div>
+        <h4>Navigace</h4>
+        <ul>
+          <li><a href="#o-nas">O nás</a></li>
+          <li><a href="#sluzby">Naše služby</a></li>
+          <li><a href="#cenik">Ceník</a></li>
+          <li><a href="#rezervace">Rezervace</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+
+      <!-- služby -->
+      <div>
+        <h4>Služby</h4>
+        <ul>
+          <li><a href="#sluzby">Opravy vozidel</a></li>
+          <li><a href="#sluzby">Pneuservis</a></li>
+          <li><a href="#sluzby">Diagnostika OBD</a></li>
+          <li><a href="#sluzby">Klimatizace</a></li>
+          <li><a href="#sluzby">Uskladnění pneu</a></li>
+        </ul>
+      </div>
+
+      <!-- hodiny -->
+      <div>
+        <h4>Provozní doba</h4>
+        <ul class="footer-hours-list">
+          <li>Po – Pá <span>7:00 – 17:00</span></li>
+          <li>Sobota <span>dle dohody</span></li>
+          <li style="color:#555;">Neděle <span style="color:#555;">zavřeno</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 Šafránek Servis. Všechna práva vyhrazena.</span>
+      <span><a href="https://safranekservis.webnode.cz">safranekservis.webnode.cz</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
